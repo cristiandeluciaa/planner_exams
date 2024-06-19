@@ -1,0 +1,142 @@
+// se si cambia qualcosa dare comando : npx prisma generate 
+
+datasource db {
+  provider = "sqlserver"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+
+model Weekly_planner{
+    Id_utente   Int @id 
+    L6 String?
+    L7 String?
+    L8 String?
+    L9 String?
+    L10 String?
+    L11 String?
+    L12 String?
+    L13 String?
+    L14 String?
+    L15 String?
+    L16 String?
+    L17 String?
+    L18 String?
+    L19 String?
+    M6 String?
+    M7 String?
+    M8 String?
+    M9 String?
+    M10 String?
+    M11 String?
+    M12 String?
+    M13 String?
+    M14 String?
+    M15 String?
+    M16 String?
+    M17 String?
+    M18 String?
+    M19 String?
+    ME6 String?
+    ME7 String?
+    ME8 String?
+    ME9 String?
+    ME10 String?
+    ME11 String?
+    ME12 String?
+    ME13 String?
+    ME14 String?
+    ME15 String?
+    ME16 String?
+    ME17 String?
+    ME18 String?
+    ME19 String?
+    G6 String?
+    G7 String?
+    G8 String?
+    G9 String?
+    G10 String?
+    G11 String?
+    G12 String?
+    G13 String?
+    G14 String?
+    G15 String?
+    G16 String?
+    G17 String?
+    G18 String?
+    G19 String?    
+    V6 String?
+    V7 String?
+    V8 String?
+    V9 String?
+    V10 String?
+    V11 String?
+    V12 String?
+    V13 String?
+    V14 String?
+    V15 String?
+    V16 String?
+    V17 String?
+    V18 String?
+    V19 String?   
+    S6 String?
+    S7 String?
+    S8 String?
+    S9 String?
+    S10 String?
+    S11 String?
+    S12 String?
+    S13 String?
+    S14 String?
+    S15 String?
+    S16 String?
+    S17 String?
+    S18 String?
+    S19 String?
+    D6 String?
+    D7 String?
+    D8 String?
+    D9 String?
+    D10 String?
+    D11 String?
+    D12 String?
+    D13 String?
+    D14 String?
+    D15 String?
+    D16 String?
+    D17 String?
+    D18 String?
+    D19 String?   
+}
+
+model Exams{
+  Id_esame Int @id @default(autoincrement())
+  Materia String?
+  CFU Float?
+  Voto Float?
+  Data1 DateTime?
+  Data2 DateTime?
+  Data3 DateTime?
+  Data4 DateTime?
+  Data5 DateTime?
+  Scelta String?
+  Id_utente Int?
+}
+
+model Utenti {
+  Id_utente        Int     @id @default(autoincrement())
+  Nome             String
+  Cognome          String
+  Data_nascita     DateTime
+  Ultimo_accesso   DateTime
+  username         String
+  password         String
+  permessi         String
+  tentativiAccesso Int?
+  bloccato         String?
+  Email            String?
+  token            String?
+}

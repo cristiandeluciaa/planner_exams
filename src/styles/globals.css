@@ -17,17 +17,394 @@
 }
 
 body {
-  color: rgb(var(--foreground-rgb));
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
-    rgb(var(--background-start-rgb));
+
+  font-family: 'Karla';
+  color: black;
+  background: "#ECECEC";
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+
+.containerHome{
+  background: "#BDBDBB" !important; 
+  height: 75%;
+}
+
+.containerExam{
+  width: 30%;
+  margin-right: 2%;
+}
+
+.containerCalendario{
+  width: 70%;
+  margin-left: 2%;
+}
+
+.titoloHome{
+  margin-bottom: 2.5%;
+  margin-top: -2%;
+}
+
+.containerPlanner{
+  height: 100vh;
+}
+
+.centra{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center; 
+}
+
+.centraOrizzontale{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center; 
+}
+
+.titoloYears{
+  height: 13%;
+}
+
+.bodyYears{
+  height: 82%;
+}
+
+.containerOrario{
+  width: 30%;
+  height: 100%;
+  font-size: 10vh;
+  line-height: 10vh;
+  margin-left: 5%;
+}
+
+
+.calendarioHome{
+  height: 80%;
+  width: 70%;
+}
+
+
+.containerMese table{
+  font-size: 25px;
+}
+
+.containerMese table th{
+  padding-right: 15px;
+  padding-left: 15px;
+}
+
+.yearTable{
+  font-size: 19px;
+  border-collapse: separate;
+  border-spacing: 0px 3.5px;
+}
+
+.meseCalendario{
+  font-size: 3vh;
+  text-align: center;
+  font-weight: 700;
+
+}
+
+.ggCalendarioHome {
+  font-size: 18px;
+  text-align: center;
+}
+
+.ggHeaderCalendario{
+  font-size: 18px;
+  text-align: center;
+}
+
+.ggCalendario{
+  font-size: 18px;
+  text-align: center;
+}
+
+.bodyYears{
+  width: 100%;
+}
+.bodyYears a{
+  height: 100%;
+  width: 7.5%;
+}
+
+.bodyYears .calendarsYears{
+  width: 85%;
+}
+
+.tableWeeklyPlanner{
+  height: 85vh;
+  width: 90%;
+  margin-left: 5%;
+  border-collapse: separate;
+  border-spacing: 10px;
+}
+.tdWeeklyPlanner{
+  width: 12%;
+  height: 5%;
+  text-align: center;
+  border-width: 1px;
+  border-color: black;
+}
+
+.inputWeeklyPlanner{
+  padding: 10px;
+  border-radius: none;
+  transition: border-color 0.3s ease;
+  outline: none; 
+  text-align: center;
+}
+
+.inputWeeklyPlanner:focus{
+  border-color: #545454;
+  box-shadow: 0 0 8px rgba(84, 84, 84, 0.75); 
+}
+
+.homeLogo{
+  padding-left: 2%;
+}
+
+.sezioneEsame{
+  caret-color: black;
+  height: 50px;
+  width: 10%;
+  margin-right: 1%;
+  border: 2px solid black;
+}
+
+.sezioneEsame:last-child{
+  margin-right: 5%;
+}
+
+.sezioneEsameBig{
+  caret-color: black;
+  height: 50px;
+  width: 32%;
+  margin-right: 1%;
+  margin-left: 5%;
+  border: 2px solid black;
+}
+
+.sezioneEsameSmall{
+  caret-color: black;
+  height: 50px;
+  width: 7%;
+  margin-right: 1%;
+  border: 2px solid black;
+}
+
+.lastSezioneEsame{
+  margin-right: 4%;
+}
+
+.addIcon{
+padding-left: 21% ;
+}
+
+[data-slot="input-field"] {
+  width: 0px;
+  height: 0px;
+  display: block;
+  text-indent: -9999px;
+  column-gap: 0rem !important;
+}
+
+[data-slot="selector-button"] {
+  display: block;
+  border-radius: 0%;
+  height: 100%;
+}
+
+[data-slot="selector-button"]:hover{
+  background-color: #545454;
+}
+
+[data-slot="inner-wrapper"] {
+  column-gap: 0px;
+  height: 100%;
+}
+
+[data-slot="input-wrapper"] {
+  padding: 0px;
+  background-color: white;
+  box-shadow: none;
+  height: 100%;
+}
+
+
+.inputExam{
+  padding: 10px;
+  font-size: 18px;
+  border-radius: none;
+  transition: border-color 0.3s ease;
+  outline: none; 
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.inputExam:focus{
+  border-color: #545454;
+  box-shadow: 0 0 8px rgba(84, 84, 84, 0.50); 
+}
+
+.selectDateExam{
+  border-radius: none;
+  transition: border-color 0.3s ease;
+  outline: none; 
+  font-size: 16px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+.selectDateExam:focus-within{
+  border-color: #545454;
+  box-shadow: 0 0 8px rgba(84, 84, 84, 0.50); 
+}
+
+.buttonExams{
+  height: 50px;
+  width: 7%;
+  font-size: 18px;
+  margin-right: 4%;
+}
+
+.ulTooltipYear li{
+  list-style: inside ;
+}
+
+#situazioneEsami{
+  background-color: #545454;
+  padding: 1%;
+  font-size: 16px;
+  border-radius: 7.5px;
+  --rt-opacity: 1;
+  box-shadow: 0 0 8px rgba(84, 84, 84, 0.50); 
+}
+
+.graficoCerchio{
+  width: 25%;
+}
+
+.graficoLinee{
+  width: 75%;
+}
+
+.itemPlannerDx{
+width: 40%;
+}
+
+.itemPlannerSx{
+width: 60%;
+}
+
+.grafico{
+  padding: 3%;
+}
+
+.graficoLinee{
+  height: 80%;
+  width: 80vh;
+}
+
+.bottoniPlanner{
+  padding:3% 3% 1% 3%;
+}
+
+.esameButton{
+  font-size: 3vh;
+  width: 90%;
+  height: 35%;
+  text-align: center;
+}
+
+.weeklyPlannerButton{
+  font-size: 3vh;
+  width: 90%;
+  height: 35%;
+  margin-top: 15%;
+  text-align: center;
+}
+
+.loginContainer{
+  height: 100vh;
+  width: 100%;
+}
+
+.titoloLoginToken{
+  margin-bottom: 3%;
+  line-height: 4vh;
+  font-size: 4vh;
+}
+
+.inputLoginToken label{
+  line-height: 2.5vh;
+  font-size: 2.5vh;  
+  margin-bottom: 10%;
+}
+
+.inputLoginToken input{  
+  border: none;
+  line-height: 1.75vh;  
+  font-size: 1.75vh;  
+  margin-bottom: 12.5%;
+  width: 125%;
+  height: 40%;
+}
+
+
+.inputLoginToken input:focus{  
+  border-color: #545454;
+  box-shadow: 0 0 8px rgba(84, 84, 84, 0.75); 
+}
+
+.inputLoginToken Button{
+  line-height: 2vh;
+  font-size: 2vh;  
+  width: 90%;
+  height: 6.5vh;
+  margin-top: 5%;
+}
+
+
+.titoloLogin{
+  margin-bottom: 1%;
+  line-height: 4vh;
+  font-size: 4vh;
+}
+
+.inputLogin label{
+  line-height: 2.5vh;
+  font-size: 2.5vh;  
+  margin-bottom: 8%;
+}
+
+.inputLogin input{  
+  border: none;
+  line-height: 1.75vh;  
+  font-size: 1.75vh;  
+  margin-bottom: 12.5%;
+  width: 125%;
+  height: 5vh;
+}
+
+
+.inputLogin input:focus{  
+  border-color: #545454;
+  box-shadow: 0 0 8px rgba(84, 84, 84, 0.75); 
+}
+
+.inputLogin Button{
+  line-height: 2vh;
+  font-size: 2vh;  
+  width: 150%;
+  height: 5vh;
+  margin-top: 5%;
 }
