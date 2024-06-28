@@ -6,9 +6,12 @@ const prisma = new PrismaClient;
 
 const editWeeklyPlanner = async (req, res) => {
 
-    const Id_utente = req.body.Id_utente;
-
     try {
+        
+    const tknDecoded = Middleware(req.headers.authorization);
+
+    if(tknDecoded){
+
         const weekly_planner = {
             L6: req.body.gg.L6,
             L7: req.body.gg.L7,
@@ -110,22 +113,24 @@ const editWeeklyPlanner = async (req, res) => {
             D19: req.body.gg.D19,
         };
 
+        console.log(tknDecoded.Id_utente)
         const weekly_plannerEdited = await prisma.weekly_planner.update({
             where: {
-                Id_utente: Id_utente
+                Id_utente: parseInt( tknDecoded.Id_utente )
             },
             data: weekly_planner
         })
 
         if (weekly_plannerEdited) {
-            if (Middleware(req.headers.authorization)) {
-                res.status(200).json({ success: true, message: "Weekly planner eliminato", data: weekly_plannerDeleted });
-            } else {
-                res.status(401).json({ error: "Unauthorized" });
-            }
-        } else {
-            res.status(500).json({ errore: "Problema nella modifica del weekly planner" });
+                res.status(200).json({ success: true, message: "Weekly planner eliminato", data: weekly_plannerEdited });
+        }else{
+                res.status(500).json({ errore: "Problema nella modifica del weekly planner" });
         }
+        
+        } else {
+                res.status(401).json({ error: "Unauthorized" });
+        }
+
 
     } catch (e) {
         res.status(500).json({ errore: "Errore nella query " + e });

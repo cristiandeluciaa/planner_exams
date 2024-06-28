@@ -17,13 +17,13 @@ const Login = async (req, res) => {
     const username = req.body.username;
     const password = req.body.password;
     const token = req.body.token;
+
     const accountBloccato = await prisma.utenti.findFirst({
         where: {
             username: username,
             bloccato: "S"
         }
     });
-
 
     if (accountBloccato && accountBloccato.lenght > 0) {
         return res.status(401).json({ error: "Account bloccato, contatta amministratore" });
@@ -63,7 +63,7 @@ const Login = async (req, res) => {
     } else if (verify && token != "") {
 
         if (token == confrontoPw["token"]) {
-            const token = jwt.sign({ username: confrontoPw["username"] }, process.env.JWT_KEY, { expiresIn: "1h" })
+            const token = jwt.sign({ Id_utente: confrontoPw["Id_utente"] }, process.env.JWT_KEY, { expiresIn: "1h" })
             
             res.status(200).json(token);
         } else {

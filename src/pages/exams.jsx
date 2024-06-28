@@ -4,41 +4,47 @@ import { useEffect, useState } from "react";
 import { Image } from "@nextui-org/react";
 import axios from "axios";
 import moment from "moment";
-import {parseDate} from "@internationalized/date";
+import { parseDate } from "@internationalized/date";
 import { getCookie } from "../../lib/cookieUtils";
 import CheckAuthComponent from "../../lib/checkAuthComponent";
 import { useRouter } from "next/router";
+import { RiWindowsFill } from "@remixicon/react";
 
 function Exams() {
 
     const [rows, setRows] = useState([]);
     const [isLoading, setisLoading] = useState(true);
     const anno = new Date().getFullYear();
+    const [annoMin, setAnnoMin] = useState((new Date().getMonth() < 8) ? anno - 1 : anno);
+    const [annoMax, setAnnoMax] = useState(annoMin + 1);
     const router = useRouter();
 
     useEffect(() => {
-        CheckAuthComponent(router);
-        selectAllExams();
-    }, []);
+        CheckAuthComponent(router);    
+        selectAllExams();      
+    }, [annoMin,annoMax]);
 
     const selectAllExams = async () => {
 
+        setisLoading(true);
+        setRows([]);
         try {
             // Carica gli esami già presenti 
-            const examsResponse = await fetch("/api/exams/findAllExams",{
-                headers: { 
-                    'Content-Type': 'application/json',
-                    authorization: `Dhai ${getCookie("tkn")}`}
-            });
-            const examsData = await examsResponse.json();
+            const examsResponse = await axios.post("/api/exams/findAllExams", {
+                    annoMin : annoMin,
+                    annoMax : annoMax,
+            },{ headers:{authorization: `Dhai ${getCookie("tkn")}`}
+}
+        );
+
+            const examsData = examsResponse.data.data;
+            const newRows = (examsData[0] != null && examsData[0] != undefined && examsData[0] != false ) ? [...examsData] : [];
             
-            const newRows = [...examsData.data];
-            
+            console.log(newRows)
             // Riempie con righe vuote se gli esami già presneti sono minori di 8
             for (let i = newRows.length; i < 8; i++) {
-                newRows.push({Id_esame :"", Materia: "", CFU: "", Voto: "", Data1: "", Data2: "", Data3: "", Data4: "", Data5: "", Scelta: "", op: "AGGIUNGI"});
-            } 
-
+                newRows.push({ Id_esame: "", Materia: "", CFU: "", Voto: "", Data1: "", Data2: "", Data3: "", Data4: "", Data5: "", Scelta: "", op: "AGGIUNGI" });
+            }
             setRows(newRows);
             setisLoading(false);
 
@@ -49,57 +55,77 @@ function Exams() {
     }
 
     const addRows = () => {
-        const updateRows = [...rows, {  Materia: "", CFU: "", Voto: "", Data1: "", Data2: "", Data3: "", Data4: "", Data5: "", Scelta: "", op: "AGGIUNGI" }];
+        const updateRows = [...rows, { Materia: "", CFU: "", Voto: "", Data1: "", Data2: "", Data3: "", Data4: "", Data5: "", Scelta: "", op: "AGGIUNGI" }];
         setRows(updateRows);
     }
-    
+
+    const cambiaAnnoPassato =  () => {
+        setAnnoMin(annoMin - 1);
+        setAnnoMax(annoMax - 1); 
+    }
+
+    const cambiaAnnoFuturo =   () => {
+        setAnnoMin(annoMin+1);
+        setAnnoMax(annoMax + 1);     
+    }
+
     if (isLoading) {
         const i = [];
         return <>
             <div className="centraOrizzontale centra pt-2 pb-5">
-                <span className="w-1/4 homeLogo"><HomeLogo /></span><h1 className="py-6 text-center text-5xl w-2/4"> <b>EXAMS</b><br></br>{
-                    (new Date().getMonth() > 7) ? (<span className="font-light">{anno}/{anno + 1}</span>) : (<span className="font-light">{anno - 1}/{anno}</span>)
-                }</h1><span className="addIcon w-1/4"><Image width={35} height={35} alt="Add row" src="more.png" className="float-right  rounded-none cursor-pointer" onClick={addRows} /> </span>
+                <span className="w-1/4 homeLogo"><HomeLogo /></span><h1 className="py-6 text-center text-5xl w-2/4"> <b>EXAMS</b><br></br><span className="font-light">{annoMin}/{annoMax}</span> 
+                </h1><span className="addIcon w-1/4"><Image width={35} height={35} alt="Add row" src="more.png" className="float-right  rounded-none cursor-pointer" onClick={addRows} /> </span>
             </div>
-            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" op="AGGIUNGI" />
-            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" op="AGGIUNGI" />
-            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" op="AGGIUNGI" />
-            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" op="AGGIUNGI" />
-            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" op="AGGIUNGI" />
-            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" op="AGGIUNGI" />
-            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" op="AGGIUNGI" />
-            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" op="AGGIUNGI" />
+            <div className="centraOrizzontale " >
+            <a className="cursor-pointer pl-5 pr-5 text-6xl text-right centra" >&lt;</a>
+            <div className="examRows">
+            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" annoMin="" annoMax="" op="AGGIUNGI" />
+            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" annoMin="" annoMax="" op="AGGIUNGI" />
+            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" annoMin="" annoMax="" op="AGGIUNGI" />
+            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" annoMin="" annoMax="" op="AGGIUNGI" />
+            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" annoMin="" annoMax="" op="AGGIUNGI" />
+            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" annoMin="" annoMax="" op="AGGIUNGI" />
+            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" annoMin="" annoMax="" op="AGGIUNGI" />
+            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" annoMin="" annoMax="" op="AGGIUNGI" />
+            </div>
+            <a className="cursor-pointer pl-5 pr-5 text-6xl text-right centra" >&gt;</a>
+            </div>
         </>;
-        
+
     }
 
     return (
         <>
             <div className="centraOrizzontale centra pt-2 pb-5">
                 <span className="w-1/4 homeLogo"><HomeLogo /></span><h1 className="py-6 text-center text-5xl w-2/4"> <b>EXAMS</b><br></br>{
-                    (new Date().getMonth() > 7) ? (<span className="font-light">{anno}/{anno + 1}</span>) : (<span className="font-light">{anno - 1}/{anno}</span>)
+                    (new Date().getMonth() > 7) ? (<span className="font-light">{annoMin}/{annoMax}</span>) : (<span className="font-light">{annoMin}/{annoMax}</span>)
                 }</h1><span className="addIcon w-1/4"><Image width={35} height={35} src="more.png" alt="Add row" className="float-right  rounded-none cursor-pointer" onClick={addRows} /> </span>
             </div>
-
-            { 
-                rows.map((row, index) => (
-                    <RowElement key={row.Id_esame} id={row.Id_esame} materiaPar={row.Materia} cfuPar={row.CFU} votoPar={row.Voto} data1Par={row.Data1} data2Par={row.Data2} data3Par={row.Data3} data4Par={row.Data4} data5Par={row.Data5} scelta={row.Scelta} op={row.op} />
-                ))
-                }
-                </>
+            <div className="centraOrizzontale " >
+                 <a className="cursor-pointer pl-5 pr-5 text-6xl centra" onClick={cambiaAnnoPassato}>&lt;</a>
+                 <div className="examRows">
+                    {
+                        rows.map((row, index) => { 
+                                return <RowElement key={index} id={row.Id_esame} materiaPar={row.Materia} cfuPar={row.CFU} votoPar={row.Voto} data1Par={row.Data1} data2Par={row.Data2} data3Par={row.Data3} data4Par={row.Data4} data5Par={row.Data5} scelta={row.Scelta} annoMin={annoMin} annoMax={annoMax} op={row.op} />
+                        })
+                    }
+                    </div> 
+                    <a className="cursor-pointer pl-5 pr-5 text-6xl text-right centra" onClick={cambiaAnnoFuturo}>&gt;</a>
+               </div>
+        </>
     )
- 
+
 }
 
 
-const RowElement = ({id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3Par, data4Par, data5Par, scelta, op}) => {
- 
+const RowElement = ({ id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3Par, data4Par, data5Par, scelta, annoMin, annoMax, op }) => {
+
     const id_esame = id;
     const [operazione, setOperazione] = useState(op);
     const [materia, setMateria] = useState(materiaPar);
     const [cfu, setCfu] = useState(cfuPar);
     const [voto, setVoto] = useState(votoPar);
-    const [stileCella, setStileCella] = useState(["white","white","white","white"]);
+    const [stileCella, setStileCella] = useState(["white", "white", "white", "white"]);
     const [selectedDateCol0, setSelectedDateCol0] = useState();
     const [selectedDateCol1, setSelectedDateCol1] = useState();
     const [selectedDateCol2, setSelectedDateCol2] = useState();
@@ -109,31 +135,31 @@ const RowElement = ({id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3P
     useEffect(() => {
 
         if (data1Par) {
-            let date1  = data1Par.split('T')[0];
+            let date1 = data1Par.split('T')[0];
             date1 = parseDate(date1);
             setSelectedDateCol0(date1);
         }
-    
+
         if (data2Par) {
-            let date2  = data2Par.split('T')[0];
+            let date2 = data2Par.split('T')[0];
             date2 = parseDate(date2);
             setSelectedDateCol1(date2);
         }
 
         if (data3Par) {
-            let date3  = data3Par.split('T')[0];
+            let date3 = data3Par.split('T')[0];
             date3 = parseDate(date3);
             setSelectedDateCol2(date3);
         }
 
         if (data4Par) {
-            let date4  = data4Par.split('T')[0];
+            let date4 = data4Par.split('T')[0];
             date4 = parseDate(date4);
             setSelectedDateCol3(date4);
         }
 
         if (data5Par) {
-            let date5  = data5Par.split('T')[0];
+            let date5 = data5Par.split('T')[0];
             date5 = parseDate(date5);
             setSelectedDateCol4(date5);
         }
@@ -144,7 +170,7 @@ const RowElement = ({id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3P
             setOperazione("MODIFICA");
         }
 
-        if(scelta){
+        if (scelta) {
             let newStileCella = [...stileCella];
             const indexCella = scelta;
             newStileCella[indexCella] = "#BDBDBB";
@@ -154,24 +180,44 @@ const RowElement = ({id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3P
     }, []);
 
     const handleSelectedDateCol0 = (date) => {
+        if(new Date(date) >= new Date(annoMin+"-09-01") && new Date(date) <= new Date(annoMax+"-08-31")){
         setSelectedDateCol0(date);
+        }else{
+            alert("Scegliere una data tra 01/09/"+annoMin+" e 31/08/"+annoMax+" Oppure cambia anno universitario")
+        }
     }
 
     const handleSelectedDateCol1 = (date) => {
-        setSelectedDateCol1(date);
+        if(new Date(date) >= new Date(annoMin+"-09-01") && new Date(date) <= new Date(annoMax+"-08-31")){
+            setSelectedDateCol1(date);
+            }else{
+                alert("Scegliere una data tra 01/09/"+annoMin+" e 31/08/"+annoMax+" Oppure cambia anno universitario")
+            }
     }
 
     const handleSelectedDateCol2 = (date) => {
-        setSelectedDateCol2(date);
+        if(new Date(date) >= new Date(annoMin+"-09-01") && new Date(date) <= new Date(annoMax+"-08-31")){
+            setSelectedDateCol2(date);
+            }else{
+                alert("Scegliere una data tra 01/09/"+annoMin+" e 31/08/"+annoMax+" Oppure cambia anno universitario")
+            }
     }
 
     const handleSelectedDateCol3 = (date) => {
-        setSelectedDateCol3(date);
+        if(new Date(date) >= new Date(annoMin+"-09-01") && new Date(date) <= new Date(annoMax+"-08-31")){
+            setSelectedDateCol3(date);
+            }else{
+                alert("Scegliere una data tra 01/09/"+annoMin+" e 31/08/"+annoMax+" Oppure cambia anno universitario")
+            }
     }
 
     const handleSelectedDateCol4 = (date) => {
-        setSelectedDateCol4(date);
-    } 
+        if(new Date(date) >= new Date(annoMin+"-09-01") && new Date(date) <= new Date(annoMax+"-08-31")){
+            setSelectedDateCol4(date);
+            }else{
+                alert("Scegliere una data tra 01/09/"+annoMin+" e 31/08/"+annoMax+" Oppure cambia anno universitario")
+            }
+    }
 
     const handleMateria = (e) => {
         setMateria(e.target.value);
@@ -185,9 +231,9 @@ const RowElement = ({id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3P
         const cfuSplitted = (e.target.value).split(" ");
         setCfu(cfuSplitted[0]);
 
-        setTimeout(()=>{
-            e.target.setSelectionRange(cfuSplitted[0].length,cfuSplitted[0].length)
-        },0)
+        setTimeout(() => {
+            e.target.setSelectionRange(cfuSplitted[0].length, cfuSplitted[0].length)
+        }, 0)
 
     }
 
@@ -202,12 +248,12 @@ const RowElement = ({id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3P
                 Data2: selectedDateCol1,
                 Data3: selectedDateCol2,
                 Data4: selectedDateCol3,
-                Data5: selectedDateCol4,
-                Id_utente: 1
-            }, {headers: { authorization: `Dhai ${getCookie("tkn")}`}});
-            
+                Data5: selectedDateCol4
+            }, { headers: { authorization: `Dhai ${getCookie("tkn")}` } });
+
             alert("Esame creato!");
-        
+            window.location.reload();
+
         } else {
             const editedExam = await axios.post("/api/exams/editExam", {
                 Id_esame: id,
@@ -218,22 +264,32 @@ const RowElement = ({id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3P
                 Data2: selectedDateCol1,
                 Data3: selectedDateCol2,
                 Data4: selectedDateCol3,
-                Data5: selectedDateCol4,
-                Id_utente: 1
-            }, {headers: { authorization: `Dhai ${getCookie("tkn")}`}});
+                Data5: selectedDateCol4
+            }, { headers: { authorization: `Dhai ${getCookie("tkn")}` } });
             alert("Esame modificato!");
+            window.location.reload();
         }
     }
 
+
+    const deleteData = async () => {
+        const deleteData = await axios.post("/api/exams/deleteExam", {
+            Id_esame: parseInt(id_esame)
+        }, { headers: { authorization: `Dhai ${getCookie("tkn")}` } });
+        alert("Esame eliminato!");
+        window.location.reload();
+    }
+
+
     const riposizionaCursore = (e) => {
-        e.target.setSelectionRange((e.target.value).length-4,(e.target.value).length-4);
+        e.target.setSelectionRange((e.target.value).length - 4, (e.target.value).length - 4);
     }
 
     return (
         <div className="centraOrizzontale centra caret-neutral-300 pb-12" >
-            <input type="text" className="sezioneEsameBig inputExam" value={materia} onChange={handleMateria} />
-            <input type="text" className={`${(cfu)?"bg-grayContainerExams": ""} sezioneEsameSmall inputExam`} value={(cfu!="")?cfu+" CFU" : cfu} onChange={handleCfu} onFocus={riposizionaCursore} onClick={riposizionaCursore} />
-            <input type="text" className="sezioneEsameSmall inputExam" value={voto} onChange={handleVoto} />
+            <input type="text" className="sezioneEsameBig inputExam" value={materia} onChange={handleMateria} aria-label="Materia" />
+            <input type="text" className={`${(cfu) ? "bg-grayContainerExams" : ""} sezioneEsameSmall inputExam`} value={(cfu != "") ? cfu + " CFU" : cfu} onChange={handleCfu} onFocus={riposizionaCursore} onClick={riposizionaCursore} aria-label="Cfu" />
+            <input type="text" className="sezioneEsameSmall inputExam" value={voto} onChange={handleVoto} aria-label="Voto" />
             <DatePicker
                 className="sezioneEsame selectDateExam"
                 selectorButtonProps={{
@@ -247,9 +303,10 @@ const RowElement = ({id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3P
                 }}
                 value={selectedDateCol0}
                 onChange={handleSelectedDateCol0}
-                CalendarBottomContent={<ButtonSceltaEsame Id_esame={id_esame} nData={"0"} />}
-                visibleMonths={3}
-                selectorIcon={<span className="color-black ">{formattaData(selectedDateCol0,true).toUpperCase()}</span>}
+                showMonthAndYearPickers 
+                CalendarBottomContent={(operazione == "MODIFICA") ? (<ButtonSceltaEsame Id_esame={id_esame} nData={"0"} sceltaEsame={scelta}/>) : (<></>)}
+                selectorIcon={<span className="color-black ">{formattaData(selectedDateCol0, true).toUpperCase()}</span>}
+                aria-label="Data esame 1"
             />
             <DatePicker
                 className="sezioneEsame selectDateExam"
@@ -264,9 +321,10 @@ const RowElement = ({id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3P
                 }}
                 value={selectedDateCol1}
                 onChange={handleSelectedDateCol1}
-                CalendarBottomContent={<ButtonSceltaEsame Id_esame={id_esame} nData={"1"} />}
-                visibleMonths={3}
-                selectorIcon={<span className="color-black ">{formattaData(selectedDateCol1,true).toUpperCase()}</span>}
+                showMonthAndYearPickers
+                CalendarBottomContent={(operazione == "MODIFICA") ? (<ButtonSceltaEsame Id_esame={id_esame} nData={"1"} sceltaEsame={scelta}/>) : (<></>)}
+                selectorIcon={<span className="color-black ">{formattaData(selectedDateCol1, true).toUpperCase()}</span>}
+                aria-label="Data esame 1"
             />
             <DatePicker
                 className="sezioneEsame selectDateExam"
@@ -281,9 +339,10 @@ const RowElement = ({id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3P
                 }}
                 value={selectedDateCol2}
                 onChange={handleSelectedDateCol2}
-                CalendarBottomContent={<ButtonSceltaEsame Id_esame={id_esame} nData={"2"} />}
-                visibleMonths={3}
-                selectorIcon={<span className="color-black ">{formattaData(selectedDateCol2,true).toUpperCase()}</span>}
+                CalendarBottomContent={(operazione == "MODIFICA") ? (<ButtonSceltaEsame Id_esame={id_esame} nData={"2"} sceltaEsame={scelta}/>) : (<></>)}
+                showMonthAndYearPickers 
+                selectorIcon={<span className="color-black ">{formattaData(selectedDateCol2, true).toUpperCase()}</span>}
+                aria-label="Data esame 1"
             />
             <DatePicker
                 className="sezioneEsame selectDateExam "
@@ -298,114 +357,114 @@ const RowElement = ({id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3P
                 }}
                 value={selectedDateCol3}
                 onChange={handleSelectedDateCol3}
-                CalendarBottomContent={<ButtonSceltaEsame Id_esame={id_esame} nData={"3"} />}
-                visibleMonths={3}
-                selectorIcon={<span className="color-black ">{formattaData(selectedDateCol3,true).toUpperCase()}</span>}
+                CalendarBottomContent={(operazione == "MODIFICA") ? (<ButtonSceltaEsame Id_esame={id_esame} nData={"3"} sceltaEsame={scelta}/>) : (<></>)}
+                showMonthAndYearPickers 
+                selectorIcon={<span className="color-black ">{formattaData(selectedDateCol3, true).toUpperCase()}</span>}
+                aria-label="Data esame 1"
             />
-            <Button color="default" variant="flat" className="buttonExams rounded-md font-bold hover:bg-neutral-300" onClick={saveData}  aria-label={operazione} >{operazione}</Button>
+            {(operazione != "AGGIUNGI") ? (<Button color="default" variant="flat" className="buttonDeleteExam rounded-md font-bold hover:bg-neutral-300" onClick={deleteData} aria-label="Elimina esame" ><Image src="bin.png" height={32} width={32} aria-label="Immagine elimina esame" /></Button>) : ""}
+            <Button color="default" variant="flat" className={`${(operazione == "MODIFICA") ? "buttonExams" : "buttonExamsAdd" }  rounded-md font-bold hover:bg-neutral-300 `} onClick={saveData} aria-label={operazione} aria-labelledby="Operazione esame" >{operazione}</Button>
         </div>
     )
 }
 
-const ButtonSceltaEsame = ({nData,Id_esame}) => {
-    
-      const handleClick = async () => {
-        
-        const updateScelta = await axios.post("/api/exams/editExam", { 
-            Scelta : nData,
-            Id_esame : Id_esame
-        }, {headers: { authorization: `Dhai ${getCookie("tkn")}`}}); 
+const ButtonSceltaEsame = ({ nData, Id_esame, sceltaEsame }) => {
 
-            window.location.reload();
+    const scelto = (sceltaEsame === nData);
+    const labelScelta = scelto ? "REVOCARE SCELTA" : "CONFERMA SCELTA";
+
+    const handleClick = async () => {
+        await axios.post("/api/exams/editExam", {
+            Scelta: scelto ? ' ' : nData,
+            Id_esame: Id_esame
+        }, { headers: { authorization: `Dhai ${getCookie("tkn")}` } });
+
+        window.location.reload();
 
     }
 
-    return(
+    return (
         <><div className="centraOrizzontale centra">
-            <Button className="rounded-md font-bold hover:bg-neutral-300 mb-5 mt-2" onClick={handleClick} aria-label="Conferma" >CONFERMA DATA PER DARE ESAME</Button>
+            <Button className="rounded-md font-bold hover:bg-neutral-300 mb-5 mt-2" onClick={handleClick} aria-label="Conferma" >{labelScelta}</Button>
         </div>
         </>
     )
 }
 
+const formattaData = (date, label = false) => {
 
-
-
-
-const formattaData = (date,label=false) => {
-    
     const parsedDate = moment(date, ["DD/MM/YYYY", "MM/DD/YYYY", "YYYY-MM-DD", "YYYY-MM-DDTHH:mm:ss.SSSZ"], true);
-  
-    let dataFormattata ;
+
+    let dataFormattata;
 
     if (parsedDate.isValid()) {
 
-        if(label){
-         dataFormattata = (date.toString()).split("-");
+        if (label) {
+            dataFormattata = (date.toString()).split("-");
 
-        const mese = dataFormattata[1];
-        const giorno = dataFormattata[2];
+            const mese = dataFormattata[1];
+            const giorno = dataFormattata[2];
 
-        switch (mese) {
-            case "01":
-                dataFormattata = giorno + " " + "Gennaio";
-                break;
+            switch (mese) {
+                case "01":
+                    dataFormattata = giorno + " " + "Gennaio";
+                    break;
 
-            case "02":
-                dataFormattata = giorno + " " + "Febbraio";
-                break;
+                case "02":
+                    dataFormattata = giorno + " " + "Febbraio";
+                    break;
 
-            case "03":
-                dataFormattata = giorno + " " + "Marzo";
-                break;
+                case "03":
+                    dataFormattata = giorno + " " + "Marzo";
+                    break;
 
-            case "04":
-                dataFormattata = giorno + " " + "Aprile";
-                break;
+                case "04":
+                    dataFormattata = giorno + " " + "Aprile";
+                    break;
 
-            case "05":
-                dataFormattata = giorno + " " + "Maggio";
-                break;
+                case "05":
+                    dataFormattata = giorno + " " + "Maggio";
+                    break;
 
-            case "06":
-                dataFormattata = giorno + " " + "Giugno";
-                break;
+                case "06":
+                    dataFormattata = giorno + " " + "Giugno";
+                    break;
 
-            case "07":
-                dataFormattata = giorno + " " + "Luglio";
-                break;
+                case "07":
+                    dataFormattata = giorno + " " + "Luglio";
+                    break;
 
-            case "08":
-                dataFormattata = giorno + " " + "Agosto";
-                break;
+                case "08":
+                    dataFormattata = giorno + " " + "Agosto";
+                    break;
 
-            case "09":
-                dataFormattata = giorno + " " + "Settembre";
-                break;
+                case "09":
+                    dataFormattata = giorno + " " + "Settembre";
+                    break;
 
-            case "10":
-                dataFormattata = giorno + " " + "Ottobre";
-                break;
+                case "10":
+                    dataFormattata = giorno + " " + "Ottobre";
+                    break;
 
-            case "11":
-                dataFormattata = giorno + " " + "Novembre";
-                break;
+                case "11":
+                    dataFormattata = giorno + " " + "Novembre";
+                    break;
 
-            case "12":
-                dataFormattata = giorno + " " + "Dicembre";
-                break;
+                case "12":
+                    dataFormattata = giorno + " " + "Dicembre";
+                    break;
 
-            default:
-                dataFormattata = " ";
-                break;
+                default:
+                    dataFormattata = " ";
+                    break;
+            }
+
+            return dataFormattata;
+        } else {
+
+            dataFormattata = parsedDate.format("DD/MM/YYYY");
+            return dataFormattata;
         }
-
-        return dataFormattata;
-    }else{
-
-        dataFormattata =  parsedDate.format("DD/MM/YYYY");
-        return dataFormattata;
-    }
 
     } else {
         return "";

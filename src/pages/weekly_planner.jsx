@@ -15,7 +15,6 @@ function formatOrari(orario){
 
 function Weekly_planner(){
 
-    const id_utente = 1;
     const [stato,setStato] = useState("MODIFICA");
     const [existPlanner,setExistPlanner] = useState(true);
     const [inputDisabled,setInputDisabled] = useState(true);
@@ -43,7 +42,6 @@ function Weekly_planner(){
     const createWeeklyPlanner = async () => {
 
         const createWeeklyPlannerRespnse = await axios.post("/api/WeeklyPlanner/createWeeklyPlanner",{
-            Id_utente : id_utente,
             gg : GG
         }, {headers: { authorization: `Dhai ${getCookie("tkn")}`}});
 
@@ -59,7 +57,6 @@ function Weekly_planner(){
     const editWeeklyPlanner = async () => {
 
         const editWeeklyPlannerRespnse = await axios.post("/api/WeeklyPlanner/editWeeklyPlanner",{
-            Id_utente : id_utente,
             gg : GG
         }, {headers: { authorization: `Dhai ${getCookie("tkn")}`}});
 
@@ -83,7 +80,7 @@ function Weekly_planner(){
     useEffect(()=>{
         const fetchWeekly_planners = async () =>{
             try {
-                const plannersResponse = await fetch(`/api/WeeklyPlanner/${id_utente}`, {
+                const plannersResponse = await fetch(`/api/WeeklyPlanner/findAllWeeklyPlanner`, {
                     headers: {
                         'Cache-Control': 'no-cache',
                         authorization: `Dhai ${getCookie("tkn")}`

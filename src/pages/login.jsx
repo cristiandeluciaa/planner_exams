@@ -55,7 +55,6 @@ const Login = () => {
                 } else {
                     alert("Errore nell'autenticazione");
                 }
-
             }
 
         } catch (e) {

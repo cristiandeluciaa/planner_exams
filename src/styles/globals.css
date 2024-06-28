@@ -276,6 +276,19 @@ padding-left: 21% ;
   margin-right: 4%;
 }
 
+.buttonExamsAdd{
+  height: 50px;
+  width: 13%;
+  font-size: 18px;
+  margin-right: 4%;
+}
+
+.buttonDeleteExam{
+  height: 50px;
+  padding: 0px;
+  width: 5%;
+  margin-right: 0.5%;
+}
 .ulTooltipYear li{
   list-style: inside ;
 }
@@ -407,4 +420,8 @@ width: 60%;
   width: 150%;
   height: 5vh;
   margin-top: 5%;
+}
+
+.examRows{
+  width: 90%;
 }
