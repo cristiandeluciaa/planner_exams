@@ -1,4 +1,4 @@
-import "/Users/cristiandelucia/Next.js/planner_exams/src/styles/globals.css";
+import "../styles/globals.css";
 import Head from 'next/head';
 import {NextUIProvider} from "@nextui-org/react";
 require("dotenv").config();
