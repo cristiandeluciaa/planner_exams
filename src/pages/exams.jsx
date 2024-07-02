@@ -33,26 +33,23 @@ function Exams() {
             const examsResponse = await axios.post("/api/exams/findAllExams", {
                     annoMin : annoMin,
                     annoMax : annoMax,
-            },{ headers:{authorization: `Dhai ${getCookie("tkn")}`}
-}
-        );
-
-            const examsData = examsResponse.data.data;
-            const newRows = (examsData[0] != null && examsData[0] != undefined && examsData[0] != false ) ? [...examsData] : [];
+            },{ headers:{authorization: `Dhai ${getCookie("tkn")}`}}
+            );
             
-            console.log(newRows)
+            const examsData = (examsResponse.data.data).filter(item => item !== false);
+            
+            const newRows = (examsData.length != 0) ? [...examsData.filter(item => item !== false)] : [];
+            
             // Riempie con righe vuote se gli esami già presneti sono minori di 8
             for (let i = newRows.length; i < 8; i++) {
                 newRows.push({ Id_esame: "", Materia: "", CFU: "", Voto: "", Data1: "", Data2: "", Data3: "", Data4: "", Data5: "", Scelta: "", op: "AGGIUNGI" });
             }
             setRows(newRows);
             setisLoading(false);
-
         } catch (errore) {
             console.log("errore ", errore);
         }
-
-    }
+    };
 
     const addRows = () => {
         const updateRows = [...rows, { Materia: "", CFU: "", Voto: "", Data1: "", Data2: "", Data3: "", Data4: "", Data5: "", Scelta: "", op: "AGGIUNGI" }];
@@ -65,7 +62,7 @@ function Exams() {
     }
 
     const cambiaAnnoFuturo =   () => {
-        setAnnoMin(annoMin+1);
+        setAnnoMin(annoMin + 1);
         setAnnoMax(annoMax + 1);     
     }
 

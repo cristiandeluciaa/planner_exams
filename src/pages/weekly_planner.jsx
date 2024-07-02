@@ -78,7 +78,7 @@ function Weekly_planner(){
     }
 
     useEffect(()=>{
-        const fetchWeekly_planners = async () =>{
+        const fetchweekly_planners = async () =>{
             try {
                 const plannersResponse = await fetch(`/api/WeeklyPlanner/findAllWeeklyPlanner`, {
                     headers: {
@@ -102,7 +102,7 @@ function Weekly_planner(){
         }
 
         CheckAuthComponent(router);
-        fetchWeekly_planners();
+        fetchweekly_planners();
          
     },[])
 

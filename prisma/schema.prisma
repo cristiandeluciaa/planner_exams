@@ -1,7 +1,7 @@
 // se si cambia qualcosa dare comando : npx prisma generate 
 
 datasource db {
-  provider = "sqlserver"
+  provider = "mysql"
   url      = env("DATABASE_URL")
 }
 
@@ -10,7 +10,7 @@ generator client {
 }
 
 
-model Weekly_planner{
+model weekly_planner{
     Id_utente   Int @id 
     L6 String?
     L7 String?
@@ -112,7 +112,7 @@ model Weekly_planner{
     D19 String?   
 }
 
-model Exams{
+model exams{
   Id_esame Int @id @default(autoincrement())
   Materia String?
   CFU Float?
@@ -126,7 +126,7 @@ model Exams{
   Id_utente Int?
 }
 
-model Utenti {
+model utenti {
   Id_utente        Int     @id @default(autoincrement())
   Nome             String
   Cognome          String

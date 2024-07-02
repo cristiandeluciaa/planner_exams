@@ -28,18 +28,18 @@ const findAllExams = async (req,res) => {
             if(annoMin != "" && annoMax != ""){
                 const dataMin = new Date(annoMin+"-09-01") ;
                 const dataMax = new Date(annoMax+"-08-31") ;
-
+                
                 const findExamsFiltred = findExams.map((exam)=>{ 
-                if( (exam.Data1 >= dataMin && exam.Data1 <= dataMax) &&
-                (exam.Data2 >= dataMin && exam.Data2 <= dataMax) &&
-                (exam.Data3 >= dataMin && exam.Data3 <= dataMax) &&
-                (exam.Data4 >= dataMin && exam.Data4 <= dataMax) ){
+                    
+                if(((exam.Data1==null) || (exam.Data1 >= dataMin && exam.Data1 <= dataMax)) &&
+                ((exam.Data2==null) || (exam.Data2 >= dataMin && exam.Data2 <= dataMax)) &&
+                ((exam.Data3==null) || (exam.Data3 >= dataMin && exam.Data3 <= dataMax)) &&
+                ((exam.Data4==null) || (exam.Data4 >= dataMin && exam.Data4 <= dataMax)) ){
                     return exam;
                 }else{
                     return false
                 }
             })
-            
             res.status(200).json({success:true,message:"Trovati esami",data:findExamsFiltred});
         
         }else{

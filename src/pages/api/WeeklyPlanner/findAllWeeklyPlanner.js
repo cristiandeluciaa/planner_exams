@@ -11,7 +11,7 @@ const findWeeklyPlanner = async (req, res) => {
 
         if (tknDecoded) {
             
-            const weekly_planner = await prisma.Weekly_planner.findMany({
+            const weekly_planner = await prisma.weekly_planner.findMany({
                 where: {
                     Id_utente: tknDecoded.Id_utente
                 }
