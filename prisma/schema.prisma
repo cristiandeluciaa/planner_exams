@@ -123,6 +123,7 @@ model exams{
   Data4 DateTime?
   Data5 DateTime?
   Scelta String?
+  Anno_universitario String?
   Id_utente Int?
 }
 

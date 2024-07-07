@@ -6,7 +6,6 @@ import tokenTemplate from "../../../../emails/tokenTemplate";
 import { render } from "@react-email/render"
 import { TemplateContext } from "next/dist/shared/lib/app-router-context.shared-runtime";
 
-
 const Login = async (req, res) => {
 
 

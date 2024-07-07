@@ -6,17 +6,14 @@ const prisma = new PrismaClient();
 const findAllExams = async (req,res) => {
 
         const tknDecoded = Middleware(req.headers.authorization);
-        let annoMin = "";
-        let annoMax = "";
+        let anno_universitario = "";
 
         if(tknDecoded){
 
-            if(req.body.annoMin!="" && req.body.annoMin!=null && req.body.annoMin!=undefined ){
-                annoMin = req.body.annoMin;
-            }
-
-            if(req.body.annoMax!="" && req.body.annoMax!=null && req.body.annoMax!=undefined ){
-                annoMax = req.body.annoMax;
+            if(req.body.anno_universitario!="" && req.body.anno_universitario!=null && req.body.anno_universitario!=undefined ){
+                anno_universitario = req.body.anno_universitario;
+            }else{
+                anno_universitario = "";
             }
             
             const findExams = await prisma.exams.findMany({
@@ -25,21 +22,14 @@ const findAllExams = async (req,res) => {
                     }
             });
 
-            if(annoMin != "" && annoMax != ""){
-                const dataMin = new Date(annoMin+"-09-01") ;
-                const dataMax = new Date(annoMax+"-08-31") ;
-                
-                const findExamsFiltred = findExams.map((exam)=>{ 
-                    
-                if(((exam.Data1==null) || (exam.Data1 >= dataMin && exam.Data1 <= dataMax)) &&
-                ((exam.Data2==null) || (exam.Data2 >= dataMin && exam.Data2 <= dataMax)) &&
-                ((exam.Data3==null) || (exam.Data3 >= dataMin && exam.Data3 <= dataMax)) &&
-                ((exam.Data4==null) || (exam.Data4 >= dataMin && exam.Data4 <= dataMax)) ){
-                    return exam;
-                }else{
-                    return false
+            if(anno_universitario != "" ){
+
+            const findExamsFiltred = await prisma.exams.findMany({
+                where : {
+                    Id_utente : tknDecoded.Id_utente,
+                    Anno_universitario : anno_universitario
                 }
-            })
+            });
             res.status(200).json({success:true,message:"Trovati esami",data:findExamsFiltred});
         
         }else{

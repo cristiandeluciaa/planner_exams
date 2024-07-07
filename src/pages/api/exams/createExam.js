@@ -37,6 +37,9 @@ const createExams = async (req,res) => {
         if(req.body.Data4){
             dataExam["Data4"]= new Date(req.body.Data4.year, req.body.Data4.month - 1, req.body.Data4.day+1).toISOString(); 
         }
+        if(req.body.Anno_universitario){
+            dataExam["Anno_universitario"]= req.body.Anno_universitario; 
+        }
         dataExam["Id_utente"] = tknDecoded.Id_utente;
         
         const examCreated = await prisma.exams.create({

@@ -44,6 +44,10 @@ const editExam = async (req,res) => {
         /*  if(isDate(req.body.Data5)){
                 data["Data5"] = new Date(req.body.Data5.year, req.body.Data5.month - 1, req.body.Data5.day).toISOString(); 
             } */
+
+            if(req.body.Anno_universitario){
+                dataExam["Anno_universitario"]= req.body.Anno_universitario; 
+            }
             dataExam["Id_utente"] = tknDecoded.Id_utente;
             
             const examEdited = await prisma.exams.update({

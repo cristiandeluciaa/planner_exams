@@ -8,21 +8,19 @@ import { parseDate } from "@internationalized/date";
 import { getCookie } from "../../lib/cookieUtils";
 import CheckAuthComponent from "../../lib/checkAuthComponent";
 import { useRouter } from "next/router";
-import { RiWindowsFill } from "@remixicon/react";
 
 function Exams() {
 
     const [rows, setRows] = useState([]);
     const [isLoading, setisLoading] = useState(true);
     const anno = new Date().getFullYear();
-    const [annoMin, setAnnoMin] = useState((new Date().getMonth() < 8) ? anno - 1 : anno);
-    const [annoMax, setAnnoMax] = useState(annoMin + 1);
+    const [anno_universitario, setAnno_universitario] = useState((anno - 1)+ "/"+ anno);
     const router = useRouter();
 
     useEffect(() => {
         CheckAuthComponent(router);    
         selectAllExams();      
-    }, [annoMin,annoMax]);
+    }, [anno_universitario]);
 
     const selectAllExams = async () => {
 
@@ -31,8 +29,7 @@ function Exams() {
         try {
             // Carica gli esami già presenti 
             const examsResponse = await axios.post("/api/exams/findAllExams", {
-                    annoMin : annoMin,
-                    annoMax : annoMax,
+                    anno_universitario : anno_universitario
             },{ headers:{authorization: `Dhai ${getCookie("tkn")}`}}
             );
             
@@ -42,7 +39,7 @@ function Exams() {
             
             // Riempie con righe vuote se gli esami già presneti sono minori di 8
             for (let i = newRows.length; i < 8; i++) {
-                newRows.push({ Id_esame: "", Materia: "", CFU: "", Voto: "", Data1: "", Data2: "", Data3: "", Data4: "", Data5: "", Scelta: "", op: "AGGIUNGI" });
+                newRows.push({ Id_esame: "", Materia: "", CFU: "", Voto: "", Data1: "", Data2: "", Data3: "", Data4: "", Data5: "", Scelta: "", anno_universitario: anno_universitario, op: "AGGIUNGI" });
             }
             setRows(newRows);
             setisLoading(false);
@@ -52,38 +49,36 @@ function Exams() {
     };
 
     const addRows = () => {
-        const updateRows = [...rows, { Materia: "", CFU: "", Voto: "", Data1: "", Data2: "", Data3: "", Data4: "", Data5: "", Scelta: "", op: "AGGIUNGI" }];
+        const updateRows = [...rows, { Materia: "", CFU: "", Voto: "", Data1: "", Data2: "", Data3: "", Data4: "", Data5: "", Scelta: "", anno_universitario: anno_universitario, op: "AGGIUNGI" }];
         setRows(updateRows);
     }
 
     const cambiaAnnoPassato =  () => {
-        setAnnoMin(annoMin - 1);
-        setAnnoMax(annoMax - 1); 
+        setAnno_universitario(((anno_universitario.split("/"))[0] - 1 ) + "/" + ((anno_universitario.split("/"))[1] - 1 ));
     }
 
     const cambiaAnnoFuturo =   () => {
-        setAnnoMin(annoMin + 1);
-        setAnnoMax(annoMax + 1);     
+        setAnno_universitario((parseFloat((anno_universitario.split("/"))[0]) + 1 ) + "/" + (parseFloat((anno_universitario.split("/"))[1]) + 1 ));
     }
 
     if (isLoading) {
         const i = [];
         return <>
             <div className="centraOrizzontale centra pt-2 pb-5">
-                <span className="w-1/4 homeLogo"><HomeLogo /></span><h1 className="py-6 text-center text-5xl w-2/4"> <b>EXAMS</b><br></br><span className="font-light">{annoMin}/{annoMax}</span> 
+                <span className="w-1/4 homeLogo"><HomeLogo /></span><h1 className="py-6 text-center text-5xl w-2/4"> <b>EXAMS</b><br></br><span className="font-light"><b>{anno_universitario}</b></span> 
                 </h1><span className="addIcon w-1/4"><Image width={35} height={35} alt="Add row" src="more.png" className="float-right  rounded-none cursor-pointer" onClick={addRows} /> </span>
             </div>
             <div className="centraOrizzontale " >
             <a className="cursor-pointer pl-5 pr-5 text-6xl text-right centra" >&lt;</a>
             <div className="examRows">
-            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" annoMin="" annoMax="" op="AGGIUNGI" />
-            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" annoMin="" annoMax="" op="AGGIUNGI" />
-            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" annoMin="" annoMax="" op="AGGIUNGI" />
-            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" annoMin="" annoMax="" op="AGGIUNGI" />
-            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" annoMin="" annoMax="" op="AGGIUNGI" />
-            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" annoMin="" annoMax="" op="AGGIUNGI" />
-            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" annoMin="" annoMax="" op="AGGIUNGI" />
-            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" annoMin="" annoMax="" op="AGGIUNGI" />
+            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" anno_universitario="" op="AGGIUNGI" />
+            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" anno_universitario="" op="AGGIUNGI" />
+            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" anno_universitario="" op="AGGIUNGI" />
+            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" anno_universitario="" op="AGGIUNGI" />
+            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" anno_universitario="" op="AGGIUNGI" />
+            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" anno_universitario="" op="AGGIUNGI" />
+            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" anno_universitario="" op="AGGIUNGI" />
+            <RowElement id="" materiaPar="" cfuPar="" votoPar="" data1Par="" data2Par="" data3Par="" data4Par="" data5Par="" scelta="" anno_universitario="" op="AGGIUNGI" />
             </div>
             <a className="cursor-pointer pl-5 pr-5 text-6xl text-right centra" >&gt;</a>
             </div>
@@ -94,16 +89,14 @@ function Exams() {
     return (
         <>
             <div className="centraOrizzontale centra pt-2 pb-5">
-                <span className="w-1/4 homeLogo"><HomeLogo /></span><h1 className="py-6 text-center text-5xl w-2/4"> <b>EXAMS</b><br></br>{
-                    (new Date().getMonth() > 7) ? (<span className="font-light">{annoMin}/{annoMax}</span>) : (<span className="font-light">{annoMin}/{annoMax}</span>)
-                }</h1><span className="addIcon w-1/4"><Image width={35} height={35} src="more.png" alt="Add row" className="float-right  rounded-none cursor-pointer" onClick={addRows} /> </span>
+                <span className="w-1/4 homeLogo"><HomeLogo /></span><h1 className="py-6 text-center text-5xl w-2/4"> <b>EXAMS</b><br></br>{anno_universitario}</h1><span className="addIcon w-1/4"><Image width={35} height={35} src="more.png" alt="Add row" className="float-right  rounded-none cursor-pointer" onClick={addRows} /> </span>
             </div>
             <div className="centraOrizzontale " >
                  <a className="cursor-pointer pl-5 pr-5 text-6xl centra" onClick={cambiaAnnoPassato}>&lt;</a>
                  <div className="examRows">
                     {
                         rows.map((row, index) => { 
-                                return <RowElement key={index} id={row.Id_esame} materiaPar={row.Materia} cfuPar={row.CFU} votoPar={row.Voto} data1Par={row.Data1} data2Par={row.Data2} data3Par={row.Data3} data4Par={row.Data4} data5Par={row.Data5} scelta={row.Scelta} annoMin={annoMin} annoMax={annoMax} op={row.op} />
+                                return <RowElement key={index} id={row.Id_esame} materiaPar={row.Materia} cfuPar={row.CFU} votoPar={row.Voto} data1Par={row.Data1} data2Par={row.Data2} data3Par={row.Data3} data4Par={row.Data4} data5Par={row.Data5} scelta={row.Scelta} anno_universitario={anno_universitario} op={row.op} />
                         })
                     }
                     </div> 
@@ -115,7 +108,7 @@ function Exams() {
 }
 
 
-const RowElement = ({ id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3Par, data4Par, data5Par, scelta, annoMin, annoMax, op }) => {
+const RowElement = ({ id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3Par, data4Par, data5Par, scelta, anno_universitario, op }) => {
 
     const id_esame = id;
     const [operazione, setOperazione] = useState(op);
@@ -177,43 +170,23 @@ const RowElement = ({ id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3
     }, []);
 
     const handleSelectedDateCol0 = (date) => {
-        if(new Date(date) >= new Date(annoMin+"-09-01") && new Date(date) <= new Date(annoMax+"-08-31")){
         setSelectedDateCol0(date);
-        }else{
-            alert("Scegliere una data tra 01/09/"+annoMin+" e 31/08/"+annoMax+" Oppure cambia anno universitario")
-        }
     }
 
     const handleSelectedDateCol1 = (date) => {
-        if(new Date(date) >= new Date(annoMin+"-09-01") && new Date(date) <= new Date(annoMax+"-08-31")){
-            setSelectedDateCol1(date);
-            }else{
-                alert("Scegliere una data tra 01/09/"+annoMin+" e 31/08/"+annoMax+" Oppure cambia anno universitario")
-            }
+        setSelectedDateCol1(date);
     }
 
     const handleSelectedDateCol2 = (date) => {
-        if(new Date(date) >= new Date(annoMin+"-09-01") && new Date(date) <= new Date(annoMax+"-08-31")){
-            setSelectedDateCol2(date);
-            }else{
-                alert("Scegliere una data tra 01/09/"+annoMin+" e 31/08/"+annoMax+" Oppure cambia anno universitario")
-            }
-    }
+        setSelectedDateCol2(date);
+        }
 
     const handleSelectedDateCol3 = (date) => {
-        if(new Date(date) >= new Date(annoMin+"-09-01") && new Date(date) <= new Date(annoMax+"-08-31")){
-            setSelectedDateCol3(date);
-            }else{
-                alert("Scegliere una data tra 01/09/"+annoMin+" e 31/08/"+annoMax+" Oppure cambia anno universitario")
-            }
+        setSelectedDateCol3(date);
     }
 
     const handleSelectedDateCol4 = (date) => {
-        if(new Date(date) >= new Date(annoMin+"-09-01") && new Date(date) <= new Date(annoMax+"-08-31")){
-            setSelectedDateCol4(date);
-            }else{
-                alert("Scegliere una data tra 01/09/"+annoMin+" e 31/08/"+annoMax+" Oppure cambia anno universitario")
-            }
+        setSelectedDateCol4(date);
     }
 
     const handleMateria = (e) => {
@@ -245,7 +218,8 @@ const RowElement = ({ id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3
                 Data2: selectedDateCol1,
                 Data3: selectedDateCol2,
                 Data4: selectedDateCol3,
-                Data5: selectedDateCol4
+                Data5: selectedDateCol4,
+                Anno_universitario: anno_universitario
             }, { headers: { authorization: `Dhai ${getCookie("tkn")}` } });
 
             alert("Esame creato!");
@@ -261,7 +235,8 @@ const RowElement = ({ id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3
                 Data2: selectedDateCol1,
                 Data3: selectedDateCol2,
                 Data4: selectedDateCol3,
-                Data5: selectedDateCol4
+                Data5: selectedDateCol4,
+                Anno_universitario: anno_universitario
             }, { headers: { authorization: `Dhai ${getCookie("tkn")}` } });
             alert("Esame modificato!");
             window.location.reload();
