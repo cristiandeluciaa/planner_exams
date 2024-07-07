@@ -277,7 +277,7 @@ const RowElement = ({ id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3
                 onChange={handleSelectedDateCol0}
                 showMonthAndYearPickers 
                 CalendarBottomContent={(operazione == "MODIFICA") ? (<ButtonSceltaEsame Id_esame={id_esame} nData={"0"} sceltaEsame={scelta}/>) : (<></>)}
-                selectorIcon={<span className="color-black ">{formattaData(selectedDateCol0, true).toUpperCase()}</span>}
+                selectorIcon={<span className="color-black ">{formattaData(selectedDateCol0).toUpperCase()}</span>}
                 aria-label="Data esame 1"
             />
             <DatePicker
@@ -295,7 +295,7 @@ const RowElement = ({ id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3
                 onChange={handleSelectedDateCol1}
                 showMonthAndYearPickers
                 CalendarBottomContent={(operazione == "MODIFICA") ? (<ButtonSceltaEsame Id_esame={id_esame} nData={"1"} sceltaEsame={scelta}/>) : (<></>)}
-                selectorIcon={<span className="color-black ">{formattaData(selectedDateCol1, true).toUpperCase()}</span>}
+                selectorIcon={<span className="color-black ">{formattaData(selectedDateCol1).toUpperCase()}</span>}
                 aria-label="Data esame 1"
             />
             <DatePicker
@@ -313,7 +313,7 @@ const RowElement = ({ id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3
                 onChange={handleSelectedDateCol2}
                 CalendarBottomContent={(operazione == "MODIFICA") ? (<ButtonSceltaEsame Id_esame={id_esame} nData={"2"} sceltaEsame={scelta}/>) : (<></>)}
                 showMonthAndYearPickers 
-                selectorIcon={<span className="color-black ">{formattaData(selectedDateCol2, true).toUpperCase()}</span>}
+                selectorIcon={<span className="color-black ">{formattaData(selectedDateCol2).toUpperCase()}</span>}
                 aria-label="Data esame 1"
             />
             <DatePicker
@@ -331,7 +331,7 @@ const RowElement = ({ id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3
                 onChange={handleSelectedDateCol3}
                 CalendarBottomContent={(operazione == "MODIFICA") ? (<ButtonSceltaEsame Id_esame={id_esame} nData={"3"} sceltaEsame={scelta}/>) : (<></>)}
                 showMonthAndYearPickers 
-                selectorIcon={<span className="color-black ">{formattaData(selectedDateCol3, true).toUpperCase()}</span>}
+                selectorIcon={<span className="color-black ">{formattaData(selectedDateCol3).toUpperCase()}</span>}
                 aria-label="Data esame 1"
             />
             {(operazione != "AGGIUNGI") ? (<Button color="default" variant="flat" className="buttonDeleteExam rounded-md font-bold hover:bg-neutral-300" onClick={deleteData} aria-label="Elimina esame" ><Image src="bin.png" height={32} width={32} aria-label="Immagine elimina esame" /></Button>) : ""}
@@ -363,6 +363,26 @@ const ButtonSceltaEsame = ({ nData, Id_esame, sceltaEsame }) => {
     )
 }
 
+const formattaData = (date) => {
+
+    const parsedDate = moment(date, ["DD/MM/YYYY", "MM/DD/YYYY", "YYYY-MM-DD", "YYYY-MM-DDTHH:mm:ss.SSSZ"], true);
+
+    let dataFormattata;
+
+    if (parsedDate.isValid()) {
+
+            dataFormattata = parsedDate.format("DD/MM/YYYY");
+            return dataFormattata;   
+
+    } else {
+        return "";
+    }
+
+}
+
+
+// Formattazione data vecchia, aggiornata il 07/07/2024 con l'aggiunta dell'anno universitario
+/* 
 const formattaData = (date, label = false) => {
 
     const parsedDate = moment(date, ["DD/MM/YYYY", "MM/DD/YYYY", "YYYY-MM-DD", "YYYY-MM-DDTHH:mm:ss.SSSZ"], true);
@@ -443,6 +463,6 @@ const formattaData = (date, label = false) => {
     }
 
 }
-
+*/
 
 export default Exams;
