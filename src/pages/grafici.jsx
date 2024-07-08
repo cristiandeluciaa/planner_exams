@@ -24,7 +24,8 @@ const Grafici = () => {
             if (Array.isArray(exams.data)) {
                 exams.data.map((exam) => {
                     if ((exam.Scelta != undefined && exam.Scelta != null && exam.Scelta != "") &&
-                        (exam.Voto != undefined && exam.Voto != null && exam.Voto != "")) {
+                        (exam.Voto != undefined && exam.Voto != null && exam.Voto != "" && exam.Voto % 100 != 0)) {
+                        let voto = exam.Voto;
                         let dateExam = parseFloat(exam.Scelta) + 1;
                         if (exam["Data" + dateExam] != undefined && exam["Data" + dateExam] != null & exam["Data" + dateExam] != "") {
                             dateExam = exam["Data" + dateExam];
@@ -34,13 +35,27 @@ const Grafici = () => {
                                 dateExam = dateExam[2] + "/" + dateExam[1] + "/" + dateExam[0];
                             }
                         }
-                        newExams.push({ data: dateExam, voto: exam.Voto });
+                        if(parseFloat(voto) == 31) {
+                            voto = 30;
+                        }
+                        
+                        newExams.push({ data: dateExam, voto: voto });
                     }
                     if (exam.Voto != undefined && exam.Voto != null && exam.Voto != "") {
                         newCfu = newCfu + parseFloat(exam.CFU);
                     }
                 });
             }
+            newExams.sort((a, b) => {
+                
+                // Prende ogni data e lo trasforma da dd/MM/YYYY in YYYY-MM-dd
+                const dateA = new Date(a.data.split('/').reverse().join('-'));
+                const dateB = new Date(b.data.split('/').reverse().join('-'));
+                
+                // Confronta le date e le ordina
+                return dateA - dateB;
+            });
+            
             setCfu(newCfu);
             setEsami(newExams);
 
@@ -114,6 +129,7 @@ const Grafici = () => {
                 autoMinValue={false}
                 maxValue={30}
                 minValue={0}
+                
                 showGridLines={true}
                 showAnimation={true}
             />

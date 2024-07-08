@@ -65,7 +65,7 @@ function Exams() {
         const i = [];
         return <>
             <div className="centraOrizzontale centra pt-2 pb-5">
-                <span className="w-1/4 homeLogo"><HomeLogo /></span><h1 className="py-6 text-center text-5xl w-2/4"> <b>EXAMS</b><br></br><span className="font-light"><b>{anno_universitario}</b></span> 
+                <span className="w-1/4 homeLogo"><HomeLogo /></span><h1 className="py-6 text-center text-5xl w-2/4"> <b>ESAMI</b><br></br><span className="font-light"><b>{anno_universitario}</b></span> 
                 </h1><span className="addIcon w-1/4"><Image width={35} height={35} alt="Add row" src="more.png" className="float-right  rounded-none cursor-pointer" onClick={addRows} /> </span>
             </div>
             <div className="centraOrizzontale " >
@@ -194,7 +194,17 @@ const RowElement = ({ id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3
     }
 
     const handleVoto = (e) => {
-        setVoto(e.target.value);
+        setVoto(e.target.value); 
+        // se c'è la lode sul db essendo un campo float diventa 31, tanto più di 30 non può essere, se ha percentuale diventa percentuale+100
+        if (e.target.value == 30) {
+            setTimeout(() => {
+                if (confirm("30 con lode?")) {
+                    setVoto("30L");
+                } else {
+                    setVoto(e.target.value);
+                }
+            }, 250);
+        } 
     }
 
     const handleCfu = (e) => {
@@ -209,11 +219,12 @@ const RowElement = ({ id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3
 
 
     const saveData = async () => {
+
         if (operazione == "AGGIUNGI") {
             const createExam = await axios.post("/api/exams/createExam", {
                 Materia: materia,
                 CFU: cfu,
-                Voto: voto,
+                Voto: (voto === "30L") ? 31 : ((voto.includes("%")) ? (parseFloat(voto) * 100) : voto )  ,
                 Data1: selectedDateCol0,
                 Data2: selectedDateCol1,
                 Data3: selectedDateCol2,
@@ -230,7 +241,7 @@ const RowElement = ({ id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3
                 Id_esame: id,
                 Materia: materia,
                 CFU: cfu,
-                Voto: voto,
+                Voto: (voto === "30L") ? 31 : ((voto.includes("%")) ? (parseFloat(voto) * 100) : voto ) ,
                 Data1: selectedDateCol0,
                 Data2: selectedDateCol1,
                 Data3: selectedDateCol2,
@@ -261,7 +272,7 @@ const RowElement = ({ id, materiaPar, cfuPar, votoPar, data1Par, data2Par, data3
         <div className="centraOrizzontale centra caret-neutral-300 pb-12" >
             <input type="text" className="sezioneEsameBig inputExam" value={materia} onChange={handleMateria} aria-label="Materia" />
             <input type="text" className={`${(cfu) ? "bg-grayContainerExams" : ""} sezioneEsameSmall inputExam`} value={(cfu != "") ? cfu + " CFU" : cfu} onChange={handleCfu} onFocus={riposizionaCursore} onClick={riposizionaCursore} aria-label="Cfu" />
-            <input type="text" className="sezioneEsameSmall inputExam" value={voto} onChange={handleVoto} aria-label="Voto" />
+            <input type="text" className="sezioneEsameSmall inputExam" value={(voto == 31) ? "30L" : ((voto && voto % 100 == 0) ? ((voto.toString()).split("00")[0])+"%" : voto )} onChange={handleVoto} aria-label="Voto" />
             <DatePicker
                 className="sezioneEsame selectDateExam"
                 selectorButtonProps={{

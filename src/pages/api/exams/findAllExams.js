@@ -16,11 +16,7 @@ const findAllExams = async (req,res) => {
                 anno_universitario = "";
             }
             
-            const findExams = await prisma.exams.findMany({
-                where : {
-                    Id_utente : tknDecoded.Id_utente,
-                    }
-            });
+
 
             if(anno_universitario != "" ){
 
@@ -33,6 +29,12 @@ const findAllExams = async (req,res) => {
             res.status(200).json({success:true,message:"Trovati esami",data:findExamsFiltred});
         
         }else{
+
+            const findExams = await prisma.exams.findMany({
+                where : {
+                    Id_utente : tknDecoded.Id_utente,
+                    }
+            });
             res.status(200).json({success:true,message:"Trovati esami",data:findExams});    
         }
 
