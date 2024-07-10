@@ -42,9 +42,6 @@ const Login = () => {
                     alert("Errore nell'autenticazione");
                 }
             } else if(mode == "checkToken"){
-                if(e.target.value=="" || e.target.value==null || e.target.value==undefined ){
-                    alert("Inserire il token!");
-                }else{
                 const res = await axios.post("/api/utenti/login",
                     {
                         username: username,
@@ -58,7 +55,6 @@ const Login = () => {
                 } else {
                     alert("Errore nell'autenticazione");
                 }
-            }
             }
 
         } catch (e) {
