@@ -141,3 +141,10 @@ model utenti {
   Email            String?
   token            String?
 }
+
+model eventi {
+  Id_evento       Int     @id @default(autoincrement())
+  Evento          String?
+  Data            DateTime?
+  Ora             DateTime?
+}

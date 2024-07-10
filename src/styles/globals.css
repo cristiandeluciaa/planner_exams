@@ -425,3 +425,70 @@ width: 60%;
 .examRows{
   width: 90%;
 }
+
+.meseEvento{
+  width: 25%;
+  height: 100%;
+}
+
+.calendarioEventi{
+  width: 75%;
+  height: 100%;
+}
+
+.meseTitle{
+  width: 100vh;
+  font-weight: 800;
+  font-size: 9vh;
+}
+
+.annoTitle{
+  width: 100vh;
+  font-weight: 100;
+  font-size: 9vh;
+  line-height: 4vh;
+}
+
+.tableEventi{
+  width: 90%;
+}
+
+.tableEventiTh{
+  font-size: 200%;
+  padding-bottom: 1.5%;
+}
+
+.tableEventiTd{
+  height: 15vh;
+  text-align: center;
+  border: 1px solid black;
+}
+
+
+.tableEventiTd table{
+  height: 100%;
+  width: 100%;
+
+}
+
+.tableEventiTd th{
+  padding: 10px;
+  text-align: left;
+}
+
+.addEvento{
+  background-color: rgba(0, 0, 0, 0.00);
+  color: rgba(0, 0, 0, 0.0);
+  border-radius: 10px;
+  width: 90%;
+  height: 30%;
+  margin-left: 5%;
+  margin-right: 5%;
+  font-size: 90%;
+}
+
+.addEvento:hover{
+  background-color: rgba(0, 0, 0, 0.05);
+  color: rgba(0, 0, 0, 0.5);
+  transition: 1s;
+}

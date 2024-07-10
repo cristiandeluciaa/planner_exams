@@ -4,6 +4,7 @@ import { Tooltip } from "react-tooltip";
 import CheckAuthComponent from "../../lib/checkAuthComponent";
 import { getCookie } from "../../lib/cookieUtils";
 import { useRouter } from "next/router";
+import Link from "next/link";
 
 function generaCalendario(anno, quadrimestre) {
     const mesi = [];
@@ -71,6 +72,7 @@ async function getDateScelte() {
 function MeseCalendario({ mese, index, quadrimestre, anno, headerGiorni, dateScelte }) {
     return (
         <div className="w-1/4 centra">
+         <Link className="centra" href="/eventi/[meseEvento]" as={`/eventi/${(index + (quadrimestre - 1) * 4).toString().padStart(2,"0") + anno}`} >
             <h2 className="meseCalendario uppercase font-extrabold mb-2">{getMese(index + (quadrimestre - 1) * 4)}</h2>
             <table  className="yearTable">
                 <thead>
@@ -110,6 +112,7 @@ function MeseCalendario({ mese, index, quadrimestre, anno, headerGiorni, dateSce
                     ))}
                 </tbody>
             </table>
+        </Link>
         </div>
     );
 }

@@ -59,7 +59,7 @@ const Login = async (req, res) => {
 
         res.status(200).json({success:true});
 
-    } else if (verify && token != "") {
+    } else if (verify && (token != "" && token != undefined && token != null)) {
 
         if (token == confrontoPw["token"]) {
             const token = jwt.sign({ Id_utente: confrontoPw["Id_utente"] }, process.env.JWT_KEY, { expiresIn: "1h" })

@@ -22,7 +22,7 @@ const CheckAuthComponent = ({ children }) => {
                     router.push("/login");
                 }
             } catch (error) {
-                console.log("Si sono verificati errori nel controllo:", error.message);
+                //console.log("Si sono verificati errori nel controllo:", error.message);
                 // Gestire l'errore in base alle necessità (es. reindirizzamento a /login con messaggio di errore)
                 router.push("/login");
             }

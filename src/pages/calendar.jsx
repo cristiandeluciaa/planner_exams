@@ -56,7 +56,6 @@ function generaCalendario(nGiorniMese, giornoInizioMese) {
 
 function Calendar() {
 
-
     const headerGiorni = ["L", "M", "M", "G", "V", "S", "D"];
     const [GiorniMesi, setGiorniMesi] = useState([]);
     const today = new Date();
