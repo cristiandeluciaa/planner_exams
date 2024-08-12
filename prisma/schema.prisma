@@ -145,6 +145,8 @@ model utenti {
 model eventi {
   Id_evento       Int     @id @default(autoincrement())
   Evento          String?
+  Descrizione     String?
   Data            DateTime?
-  Ora             DateTime?
+  Categoria       String?
+  Id_utente       Int?
 }

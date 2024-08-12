@@ -65,8 +65,7 @@ async function getDateScelte() {
         }
     })
 
-    return [dateScelte,descrizioneEsame];;
-
+    return [dateScelte,descrizioneEsame];
 }
 
 function MeseCalendario({ mese, index, quadrimestre, anno, headerGiorni, dateScelte }) {
@@ -77,8 +76,8 @@ function MeseCalendario({ mese, index, quadrimestre, anno, headerGiorni, dateSce
             <table  className="yearTable">
                 <thead>
                     <tr>
-                        {headerGiorni.map(headerGiorno => (
-                            <th key={headerGiorno} className="ggHeaderCalendario px-2 bg-grayContainerHome">{headerGiorno}</th>
+                        {headerGiorni.map((headerGiorno,indexHeaderGiorno) => (
+                            <th key={indexHeaderGiorno} className="ggHeaderCalendario px-2 bg-grayContainerHome">{headerGiorno}</th>
                         ))}
                     </tr>
                 </thead>
@@ -86,7 +85,7 @@ function MeseCalendario({ mese, index, quadrimestre, anno, headerGiorni, dateSce
                     {mese.map((settimana, indexSett) => (
                         <tr key={indexSett}>
                             {settimana.map((giorno, indexGiorno) => {
-                                const dataFormatta = anno + "-" + (index + (quadrimestre - 1) * 4).toString().padStart(2, "0") + "-" + giorno.toString().padStart(2, "0");
+                                const dataFormatta = anno + "-" + ((index + (quadrimestre - 1) * 4)+1).toString().padStart(2, "0") + "-" + giorno.toString().padStart(2, "0");
                                 let esamiDelGiorno = "";
                                 
                                 if(dateScelte[0].includes(dataFormatta)){
@@ -97,11 +96,10 @@ function MeseCalendario({ mese, index, quadrimestre, anno, headerGiorni, dateSce
                                 }
                                 return (
                                     (dateScelte[0].includes(dataFormatta)) ? (
-                                        <td className="ggCalendario cursor-help bg-gray-200 rounded-xl "
-                                            
+                                        <td className="ggCalendario cursor-help bg-gray-200 rounded-xl"
                                             data-tooltip-id="situazioneEsami"
                                             data-tooltip-content={`${esamiDelGiorno}`}
-                                            cellpadding={50}
+                                            cellPadding={50}
                                             index={indexGiorno}>{giorno}</td>
                                     ) : (
                                         <td className="ggCalendario" index={indexGiorno}>{giorno}</td>
@@ -132,8 +130,8 @@ function Year() {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const [dates, descriptions] = await getDateScelte();
-                setDateScelte([dates, descriptions]);
+                const [date, descrizioni] = await getDateScelte();
+                setDateScelte([date, descrizioni]);
                 setPrimoQuadrimestre(generaCalendario(anno, 1));
                 setSecondoQuadrimestre(generaCalendario(anno, 2));
                 setTerzoQuadrimestre(generaCalendario(anno, 3));

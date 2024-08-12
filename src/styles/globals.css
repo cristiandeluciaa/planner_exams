@@ -6,6 +6,15 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --tw-ring-shadow:none;
+  --tw-ring-offset-shadow:none;
+  --tw-ring-color:none;
+}
+
+*:focus{
+  --tw-ring-shadow:none;
+  --tw-ring-offset-shadow:none;
+  --tw-ring-color:none;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -101,9 +110,9 @@ body {
 }
 
 .yearTable{
-  font-size: 19px;
+  font-size: 18px;
   border-collapse: separate;
-  border-spacing: 0px 3.5px;
+  border-spacing: 0px 2px;
 }
 
 .meseCalendario{
@@ -209,7 +218,7 @@ body {
 padding-left: 21% ;
 }
 
-[data-slot="input-field"] {
+.selectDateExam [data-slot="input-field"] {
   width: 0px;
   height: 0px;
   display: block;
@@ -217,22 +226,22 @@ padding-left: 21% ;
   column-gap: 0rem !important;
 }
 
-[data-slot="selector-button"] {
+.selectDateExam [data-slot="selector-button"] {
   display: block;
   border-radius: 0%;
   height: 100%;
 }
 
-[data-slot="selector-button"]:hover{
+.selectDateExam [data-slot="selector-button"]:hover{
   background-color: #545454;
 }
 
-[data-slot="inner-wrapper"] {
+.selectDateExam [data-slot="inner-wrapper"] {
   column-gap: 0px;
   height: 100%;
 }
 
-[data-slot="input-wrapper"] {
+.selectDateExam [data-slot="input-wrapper"] {
   padding: 0px;
   background-color: white;
   box-shadow: none;
@@ -427,6 +436,7 @@ width: 60%;
 }
 
 .meseEvento{
+  padding-right: 2.5%;
   width: 25%;
   height: 100%;
 }
@@ -434,6 +444,8 @@ width: 60%;
 .calendarioEventi{
   width: 75%;
   height: 100%;
+  display: flex;
+  justify-content: center;
 }
 
 .meseTitle{
@@ -450,45 +462,157 @@ width: 60%;
 }
 
 .tableEventi{
-  width: 90%;
+  width: 92.5%;
+  height: 98%;
+  table-layout: fixed;
 }
 
 .tableEventiTh{
-  font-size: 200%;
-  padding-bottom: 1.5%;
+  font-size: 200%;    
+  line-height: 190%;
 }
 
 .tableEventiTd{
-  height: 15vh;
+  height: 17.5vh; 
   text-align: center;
   border: 1px solid black;
+  vertical-align: top;
 }
 
-
-.tableEventiTd table{
-  height: 100%;
-  width: 100%;
-
-}
-
-.tableEventiTd th{
-  padding: 10px;
-  text-align: left;
+.ggStyle{
+  width: 10%;
+  float: left;
 }
 
 .addEvento{
   background-color: rgba(0, 0, 0, 0.00);
-  color: rgba(0, 0, 0, 0.0);
-  border-radius: 10px;
+  float: right;
+  color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  width: 75%;
+  margin-left: 10%;
+  margin-right: 5%;
+  line-height: 180%;
+  font-size: 80%;
+}
+
+.eventiSurplus{
+  background-color: rgba(0, 0, 0, 0.04);
+  color: rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
   width: 90%;
-  height: 30%;
   margin-left: 5%;
   margin-right: 5%;
+  line-height: 180%;
   font-size: 90%;
 }
 
+.eventiSurplus:hover{
+  background-color: rgba(0, 0, 0, 0.08);
+  color: rgba(0, 0, 0, 0.9);
+  transition: 0.9s ease;
+}
+
+ .event{
+  border-radius: 8px;
+  text-align: left;
+  width: 90%;
+  margin-left: 5%;
+  margin-right: 5%;
+  margin-bottom: 5%;
+  line-height: 180%;
+  font-size: 90%;
+  padding-left: 6.5%;
+  max-width: 90%;
+  white-space: nowrap; 
+  text-overflow: ellipsis; 
+  overflow: hidden;
+  display: block;
+} 
+
 .addEvento:hover{
-  background-color: rgba(0, 0, 0, 0.05);
-  color: rgba(0, 0, 0, 0.5);
+  /* background-color: rgba(0, 0, 0, 0.05); 
+  color: rgba(0, 0, 0, 0.5); */
+  color: black;
   transition: 1s;
+}
+
+.tableEventiTdSpan{
+  display: block;
+  text-align: left;
+  padding-left: 10%;
+  padding-top: 2%;
+  font-size: 20px;
+  height: 19.5%;
+}
+
+.tableEventiUl{
+  display: block;
+  height: 78.5%;
+}
+
+.inputEvento [data-slot="input"]{
+  border: none;
+}
+
+.inputEvento [type="text"] :focus {
+  box-shadow: none;
+  outline: none;
+  border: none;
+}
+.inputEvento:focus{
+  color:white !important;
+}
+
+.tableEventiUl .tooltipEvSurplus{
+  background-color: #ffffff;
+  color: black;
+  box-shadow: 0 0 8px rgba(84, 84, 84, 0.10); 
+  border-radius: 2%;
+  width: 30%;
+  font-size: 102.5%;
+  padding-top: 1.5%;
+  padding-bottom: 1%;
+}
+
+.tableEventiUl .tooltipEvSurplus .event{
+  padding-left: 4%;
+}
+
+.eventTooltip{
+  padding-top: 1.5%;
+  margin-bottom: 2%;
+}
+
+.dettaglioEvento{
+    padding-right: 4%;
+    padding-bottom: 2%;
+    white-space: normal; 
+    word-wrap: break-word; 
+    overflow: hidden;
+}
+
+.meseAnnoEventi{
+  height: 90%;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center; 
+}
+
+.tableEventiUlHeight{
+  height: 14vh;
+}
+
+.tableEventiUlHeight .tableEventiTdSpan{ 
+  margin-bottom: 5%;
+}
+
+.inputEvento [type='text']:focus, .inputEvento textarea:focus, .tableEventiUl button:focus, .tableEventiTdSpan button:focus{
+  outline: none;
+  box-shadow: none;
+  --tw-ring-shadow:none;
+  --tw-ring-offset-shadow:none;
+  --tw-ring-color:none;
 }
