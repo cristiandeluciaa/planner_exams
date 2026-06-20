@@ -1,152 +1,152 @@
-// se si cambia qualcosa dare comando : npx prisma generate 
+// se si cambia qualcosa dare comando : npx prisma generate
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
+  directUrl = env("DIRECT_URL")
 }
 
 generator client {
   provider = "prisma-client-js"
 }
 
-
-model weekly_planner{
-    Id_utente   Int @id 
-    L6 String?
-    L7 String?
-    L8 String?
-    L9 String?
-    L10 String?
-    L11 String?
-    L12 String?
-    L13 String?
-    L14 String?
-    L15 String?
-    L16 String?
-    L17 String?
-    L18 String?
-    L19 String?
-    M6 String?
-    M7 String?
-    M8 String?
-    M9 String?
-    M10 String?
-    M11 String?
-    M12 String?
-    M13 String?
-    M14 String?
-    M15 String?
-    M16 String?
-    M17 String?
-    M18 String?
-    M19 String?
-    ME6 String?
-    ME7 String?
-    ME8 String?
-    ME9 String?
-    ME10 String?
-    ME11 String?
-    ME12 String?
-    ME13 String?
-    ME14 String?
-    ME15 String?
-    ME16 String?
-    ME17 String?
-    ME18 String?
-    ME19 String?
-    G6 String?
-    G7 String?
-    G8 String?
-    G9 String?
-    G10 String?
-    G11 String?
-    G12 String?
-    G13 String?
-    G14 String?
-    G15 String?
-    G16 String?
-    G17 String?
-    G18 String?
-    G19 String?    
-    V6 String?
-    V7 String?
-    V8 String?
-    V9 String?
-    V10 String?
-    V11 String?
-    V12 String?
-    V13 String?
-    V14 String?
-    V15 String?
-    V16 String?
-    V17 String?
-    V18 String?
-    V19 String?   
-    S6 String?
-    S7 String?
-    S8 String?
-    S9 String?
-    S10 String?
-    S11 String?
-    S12 String?
-    S13 String?
-    S14 String?
-    S15 String?
-    S16 String?
-    S17 String?
-    S18 String?
-    S19 String?
-    D6 String?
-    D7 String?
-    D8 String?
-    D9 String?
-    D10 String?
-    D11 String?
-    D12 String?
-    D13 String?
-    D14 String?
-    D15 String?
-    D16 String?
-    D17 String?
-    D18 String?
-    D19 String?   
+model weekly_planner {
+  Id_utente Int     @id @map("id_utente")
+  L6  String? @map("l6")  @db.VarChar(100)
+  L7  String? @map("l7")  @db.VarChar(100)
+  L8  String? @map("l8")  @db.VarChar(100)
+  L9  String? @map("l9")  @db.VarChar(100)
+  L10 String? @map("l10") @db.VarChar(100)
+  L11 String? @map("l11") @db.VarChar(100)
+  L12 String? @map("l12") @db.VarChar(100)
+  L13 String? @map("l13") @db.VarChar(100)
+  L14 String? @map("l14") @db.VarChar(100)
+  L15 String? @map("l15") @db.VarChar(100)
+  L16 String? @map("l16") @db.VarChar(100)
+  L17 String? @map("l17") @db.VarChar(100)
+  L18 String? @map("l18") @db.VarChar(100)
+  L19 String? @map("l19") @db.VarChar(100)
+  M6  String? @map("m6")  @db.VarChar(100)
+  M7  String? @map("m7")  @db.VarChar(100)
+  M8  String? @map("m8")  @db.VarChar(100)
+  M9  String? @map("m9")  @db.VarChar(100)
+  M10 String? @map("m10") @db.VarChar(100)
+  M11 String? @map("m11") @db.VarChar(100)
+  M12 String? @map("m12") @db.VarChar(100)
+  M13 String? @map("m13") @db.VarChar(100)
+  M14 String? @map("m14") @db.VarChar(100)
+  M15 String? @map("m15") @db.VarChar(100)
+  M16 String? @map("m16") @db.VarChar(100)
+  M17 String? @map("m17") @db.VarChar(100)
+  M18 String? @map("m18") @db.VarChar(100)
+  M19 String? @map("m19") @db.VarChar(100)
+  ME6  String? @map("me6")  @db.VarChar(100)
+  ME7  String? @map("me7")  @db.VarChar(100)
+  ME8  String? @map("me8")  @db.VarChar(100)
+  ME9  String? @map("me9")  @db.VarChar(100)
+  ME10 String? @map("me10") @db.VarChar(100)
+  ME11 String? @map("me11") @db.VarChar(100)
+  ME12 String? @map("me12") @db.VarChar(100)
+  ME13 String? @map("me13") @db.VarChar(100)
+  ME14 String? @map("me14") @db.VarChar(100)
+  ME15 String? @map("me15") @db.VarChar(100)
+  ME16 String? @map("me16") @db.VarChar(100)
+  ME17 String? @map("me17") @db.VarChar(100)
+  ME18 String? @map("me18") @db.VarChar(100)
+  ME19 String? @map("me19") @db.VarChar(100)
+  G6  String? @map("g6")  @db.VarChar(100)
+  G7  String? @map("g7")  @db.VarChar(100)
+  G8  String? @map("g8")  @db.VarChar(100)
+  G9  String? @map("g9")  @db.VarChar(100)
+  G10 String? @map("g10") @db.VarChar(100)
+  G11 String? @map("g11") @db.VarChar(100)
+  G12 String? @map("g12") @db.VarChar(100)
+  G13 String? @map("g13") @db.VarChar(100)
+  G14 String? @map("g14") @db.VarChar(100)
+  G15 String? @map("g15") @db.VarChar(100)
+  G16 String? @map("g16") @db.VarChar(100)
+  G17 String? @map("g17") @db.VarChar(100)
+  G18 String? @map("g18") @db.VarChar(100)
+  G19 String? @map("g19") @db.VarChar(100)
+  V6  String? @map("v6")  @db.VarChar(100)
+  V7  String? @map("v7")  @db.VarChar(100)
+  V8  String? @map("v8")  @db.VarChar(100)
+  V9  String? @map("v9")  @db.VarChar(100)
+  V10 String? @map("v10") @db.VarChar(100)
+  V11 String? @map("v11") @db.VarChar(100)
+  V12 String? @map("v12") @db.VarChar(100)
+  V13 String? @map("v13") @db.VarChar(100)
+  V14 String? @map("v14") @db.VarChar(100)
+  V15 String? @map("v15") @db.VarChar(100)
+  V16 String? @map("v16") @db.VarChar(100)
+  V17 String? @map("v17") @db.VarChar(100)
+  V18 String? @map("v18") @db.VarChar(100)
+  V19 String? @map("v19") @db.VarChar(100)
+  S6  String? @map("s6")  @db.VarChar(100)
+  S7  String? @map("s7")  @db.VarChar(100)
+  S8  String? @map("s8")  @db.VarChar(100)
+  S9  String? @map("s9")  @db.VarChar(100)
+  S10 String? @map("s10") @db.VarChar(100)
+  S11 String? @map("s11") @db.VarChar(100)
+  S12 String? @map("s12") @db.VarChar(100)
+  S13 String? @map("s13") @db.VarChar(100)
+  S14 String? @map("s14") @db.VarChar(100)
+  S15 String? @map("s15") @db.VarChar(100)
+  S16 String? @map("s16") @db.VarChar(100)
+  S17 String? @map("s17") @db.VarChar(100)
+  S18 String? @map("s18") @db.VarChar(100)
+  S19 String? @map("s19") @db.VarChar(100)
+  D6  String? @map("d6")  @db.VarChar(100)
+  D7  String? @map("d7")  @db.VarChar(100)
+  D8  String? @map("d8")  @db.VarChar(100)
+  D9  String? @map("d9")  @db.VarChar(100)
+  D10 String? @map("d10") @db.VarChar(100)
+  D11 String? @map("d11") @db.VarChar(100)
+  D12 String? @map("d12") @db.VarChar(100)
+  D13 String? @map("d13") @db.VarChar(100)
+  D14 String? @map("d14") @db.VarChar(100)
+  D15 String? @map("d15") @db.VarChar(100)
+  D16 String? @map("d16") @db.VarChar(100)
+  D17 String? @map("d17") @db.VarChar(100)
+  D18 String? @map("d18") @db.VarChar(100)
+  D19 String? @map("d19") @db.VarChar(100)
 }
 
-model exams{
-  Id_esame Int @id @default(autoincrement())
-  Materia String?
-  CFU Float?
-  Voto Float?
-  Data1 DateTime?
-  Data2 DateTime?
-  Data3 DateTime?
-  Data4 DateTime?
-  Data5 DateTime?
-  Scelta String?
-  Anno_universitario String?
-  Id_utente Int?
+model exams {
+  Id_esame           Int       @id @default(autoincrement()) @map("id_esame")
+  Materia            String?   @map("materia") @db.VarChar(255)
+  CFU                Decimal?  @map("cfu") @db.Decimal(4, 1)
+  Voto               Decimal?  @map("voto") @db.Decimal(4, 1)
+  Data1              DateTime? @map("data1") @db.Date
+  Data2              DateTime? @map("data2") @db.Date
+  Data3              DateTime? @map("data3") @db.Date
+  Data4              DateTime? @map("data4") @db.Date
+  Data5              DateTime? @map("data5") @db.Date
+  Scelta             String?   @map("scelta") @db.Char(1)
+  Anno_universitario String?   @map("anno_universitario") @db.VarChar(15)
+  Id_utente          Int?      @map("id_utente")
 }
 
 model utenti {
-  Id_utente        Int     @id @default(autoincrement())
-  Nome             String
-  Cognome          String
-  Data_nascita     DateTime
-  Ultimo_accesso   DateTime
-  username         String
-  password         String
-  permessi         String
-  tentativiAccesso Int?
-  bloccato         String?
-  Email            String?
-  token            String?
+  Id_utente        Int      @id @default(autoincrement()) @map("id_utente")
+  Nome             String   @map("nome") @db.VarChar(255)
+  Cognome          String   @map("cognome") @db.VarChar(255)
+  Data_nascita     DateTime @map("data_nascita") @db.Date
+  Ultimo_accesso   DateTime @map("ultimo_accesso") @db.Timestamp(6)
+  username         String   @db.VarChar(255)
+  password         String   @db.VarChar(255)
+  permessi         String   @db.Char(1)
+  tentativiAccesso Int?     @map("tentativiaccesso")
+  bloccato         String?  @db.Char(1)
+  Email            String?  @map("email") @db.VarChar(255)
+  token            String?  @db.VarChar(8)
 }
 
 model eventi {
-  Id_evento       Int     @id @default(autoincrement())
-  Evento          String?
-  Descrizione     String?
-  Data            DateTime?
-  Categoria       String?
-  Id_utente       Int?
+  Id_evento   Int       @id @default(autoincrement()) @map("id_evento")
+  Evento      String?   @map("evento") @db.VarChar(255)
+  Descrizione String?   @map("descrizione") @db.VarChar(255)
+  Data        DateTime? @map("data") @db.Timestamp(6)
+  Categoria   String?   @map("categoria") @db.VarChar(255)
+  Id_utente   Int?      @map("id_utente")
 }
